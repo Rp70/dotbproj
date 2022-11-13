@@ -6,7 +6,7 @@ This is Ubuntu-based, tested with Ubuntu 20.04 LTS. However, I would expect it w
 If you experience a bug, please file an issue so others can help or submit your PR. Thank you!
 
 ## *WARNING!*
-This project is currently used for projects I am working on. It may not work on your projects. Lot of changes need to be made and document here. However, you're welcome to change and submit your PR. I welcome contributors. Thank you so much!
+This project is currently used for projects I am working on. It may not work on your projects. Lot of changes need to be made and document here. However, if you're interested in, you're welcome to change and submit your PR. I welcome contributors. Thank you so much!
 
 ## Usage
 ### For your project
