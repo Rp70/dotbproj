@@ -32,7 +32,7 @@ ENVRONMENT=prod HOST=`hostname` .bproj/support/install.sh
 ```
 * Under `sudo` account
 ```bash
-ENVRONMENT=prod HOST=`hostname` sudo .bproj/support/install.sh
+sudo ENVRONMENT=prod HOST=`hostname` .bproj/support/install.sh
 ```
 Replace `rp70` with your own name.
 
