@@ -77,6 +77,7 @@ if [ "`systemctl is-enabled ${PROJECT_SERVICE_NAME}.service 2>/dev/null`" = 'ena
     systemctl disable ${PROJECT_SERVICE_NAME}.service
 fi
 envsubst '$PROJECT_NAME $PROJECT_DIR $PROJECT_SERVICE_NAME $PROJECT_USER $SERVICE_TYPE $ENVIRONMENT' < ./systemd.service > /etc/systemd/system/${PROJECT_SERVICE_NAME}.service
+chmod 0644 /etc/systemd/system/${PROJECT_SERVICE_NAME}.service
 echo
 
 echo "Activating systemd service:"
