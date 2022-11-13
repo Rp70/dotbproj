@@ -1,7 +1,7 @@
 [Unit]
 Description=${PROJECT_NAME}
-Requires=ssh.service
-After=ssh.service
+Requires=docker.service
+After=docker.service
 
 [Service]
 Type=${SERVICE_TYPE}
