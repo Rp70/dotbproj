@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+
+VERSION=20221031
+
+#set -e
+#set -x
+
+cd $(dirname $0)
+echo Working directory: `pwd`
+
+export COMPOSE_PROJECT_NAME=$(basename `pwd`)
+set -o allexport
+. project.env
+if [ -f .env ]; then
+	. .env
+fi
+if [ "$HOST" = '' ]; then
+	HOSTENV="$ENVIRONMENT.`hostname`.env"
+else
+	HOSTENV="$ENVIRONMENT.$HOST.env"
+fi
+if [ -f $HOSTENV ]; then
+	. $HOSTENV
+fi
+COMPOSE_PROJECT_NAME="${PROJECT_ID}"
+set +o allexport
+
+if [ "$PROJECT_SUDO" = 'true' -a `id -u` != 0 ]; then
+    echo "Root or Sudo required! Please run this script under root account or SUDO."
+    exit 1
+fi
+
+CMDPREFIX=""
+if [ "$PROJECT_USER" != '' -a `id -un` != "$PROJECT_USER" ]; then
+	CMDPREFIX="$CMDPREFIX su - $PROJECT_USER"
+fi
+
+docker_compose_service_start() {
+	if [ -f ./nfs/apparmor ]; then
+		sudo apparmor_parser -r -W ./nfs/apparmor
+	fi
+	
+	docker_compose_main up -d --force-recreate --remove-orphans
+}
+docker_compose_service_end() {
+	docker_compose_main down
+}
+docker_compose_main() {
+	docker-compose $@
+	case "$1" in
+		down|kill|restart|run|start|stop|up)
+			if [ $? -eq 0 ]; then
+				CSFBIN=`which csf | cat -`
+				if [ "$CSFBIN" = '' ]; then
+					echo "Restarting CSF Firewall: not found, skipped."
+				else
+					sleep $CSF_RESTART_DELAY
+					$CSFBIN -r 2>&1 | tee tmp/firewall.log
+					echo "Restarting CSF Firewall: done."
+				fi
+				docker ps -a
+			else
+				exit $?
+			fi
+			
+		;;
+	esac
+}
+
+vagrant_service_start() {
+	vagrant_main up
+}
+vagrant_service_end() {
+	vagrant_main halt
+}
+vagrant_main() {
+	$CMDPREFIX vagrant $@
+}
+
+project_service_start() {
+	docker_compose_service_start
+	#vagrant_service_start
+}
+project_service_end() {
+	#vagrant_service_end
+	docker_compose_service_end
+}
+project_service_restart() {
+	project_service_end
+	project_service_start
+}
+project_main() {
+	docker_compose_main $@ 
+}
+
+svc_start="${PROJECT_MAINPROG}_service_start"
+svc_end="${PROJECT_MAINPROG}_service_end"
+svc_end="${PROJECT_MAINPROG}_service_restart"
+case "$1" in
+	service-start)
+		shift
+		$svc_start $@
+	;;
+	service-end)
+		shift
+		$svc_end $@
+	;;
+	service-restart)
+		shift
+		$svc_end $@
+	;;
+	*)
+		project_main $@
+	;;
+esac

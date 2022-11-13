@@ -1,0 +1,18 @@
+[Unit]
+Description=${PROJECT_NAME}
+Requires=ssh.service
+After=ssh.service
+
+[Service]
+Type=${SERVICE_TYPE}
+RemainAfterExit=yes
+User=${PROJECT_USER}
+WorkingDirectory=${PROJECT_DIR}
+#Environment=ENVIRONMENT=${ENVIRONMENT}
+#EnvironmentFile=${PROJECT_DIR}/${ENVIRONMENT}.env
+ExecStart=${PROJECT_DIR}/project service-start
+ExecStop=${PROJECT_DIR}/project service-stop
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
