@@ -89,7 +89,7 @@ echo
 
 
 if [ "$CSF_FIREWALL" = 1 -a -f $SUPPORT_DIR/firewall.sh ]; then
-    echo "Linking files:"
+    echo "Linking firewall files:"
     mkdir -p $CSFPOSTD # Make the folder in case it doesn't exist.
     ln -sfv $SUPPORT_DIR/firewall.sh $CSFPOSTD/vv_${PROJECT_SERVICE_NAME}.sh
     echo
@@ -97,6 +97,17 @@ if [ "$CSF_FIREWALL" = 1 -a -f $SUPPORT_DIR/firewall.sh ]; then
     ls -lah $CSFPOSTD
     echo
 fi
+
+if [ "$LINK_PROJECT" = 1 ]; then
+    echo "Linking project:"
+    if [ ! -e "$PROJECT_DIR/project" -o -L "$PROJECT_DIR/project" ]; then
+        ln -sfv $PROJECT_DIR/.bproj/project $PROJECT_DIR/project
+    else
+        echo "Error: unable to link $PROJECT_DIR/project"
+    fi
+    echo
+fi
+
 
 echo "Creating temp folder:"
 mkdir -p $PROJECT_DIR/tmp
