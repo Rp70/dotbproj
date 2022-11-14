@@ -21,7 +21,7 @@ cd /myproject # Jump to your project folder, CHANGE this path to your project pa
 **WARNING!** This will remove existing `.bproj` and install the latest version.
 **WARNING!** Make sure that you review https://raw.githubusercontent.com/Rp70/dotbproj/master/install-bproj.sh before running on your machine. Do not trust me.
 ```bash
-curl -s https://raw.githubusercontent.com/Rp70/dotbproj/master/install-bproj.sh | bash -
+bash - <(curl -s https://raw.githubusercontent.com/Rp70/dotbproj/master/install-bproj.sh)
 ```
 3. Upgrade process ends here. If this is the very first installation, continue the below instructions.
 4. Create `project.env` in your project folder. There is a `sample.project.env` you can copy
