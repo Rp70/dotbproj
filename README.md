@@ -10,22 +10,28 @@ This project is currently used for projects I am working on. It may not work on 
 
 ## Usage
 ### For your project
-When you just want to use it for create systemd.service for starting your project
-1. Download `dotbproj`. This step will clone this repo and place `.bproj` folder in your project folder and clean its other codes.
+When you just want to use it for create systemd.service for starting your project. Installation & Upgrade processes have the same steps.
+1. Change working directory to your project
 ```bash
-cd /myproject # Jump to your project folder, change this path to your project path
+cd /myproject # Jump to your project folder, CHANGE this path to your project path
+```
+**CHANGE** this path to your project path
+2. Download `dotbproj`. This step will clone this repo and place `.bproj` folder in your project folder and clean its other codes. **WARNING!** This will remove existing `.bproj` and install the latest version
+```bash
 git clone https://github.com/Rp70/dotbproj.git dotbproj # Clone this repo
+rm -rdf ./.bproj # Remove the exising version
 mv dotbproj/.bproj ./ # Move the .bproj to your project folder
 rm -rdf dotbproj # Clean up the cloned repo
 ```
-2. Create `project.env` in your project folder. There is a `sample.project.env` you can copy
+3. Upgrade process ends here. If this is the very first installation, continue the below instructions.
+4. Create `project.env` in your project folder. There is a `sample.project.env` you can copy
 ```bash
 cp .bproj/sample.project.env project.env
 ```
-3. Custom `project.env` to meet your needs. Editors like `vi` or `nano` would help:
+5. Custom `project.env` to meet your needs. Editors like `vi` or `nano` would help:
 * If `vi` is available, run `vi project.env`
 * If `nano` is available, run `nano project.env`
-4. Install your systemd.service by running:
+6. Install your systemd.service by running:
 * Under `root`
 ```bash
 ENVRONMENT=prod HOST=`hostname` .bproj/support/install.sh
