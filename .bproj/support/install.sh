@@ -13,6 +13,9 @@ if [ ! -f $PROJECT_DIR/project.env ]; then
 fi
 set -o allexport
 . $PROJECT_DIR/project.env
+if [ "$HOST" = '' -a -f $PROJECT_DIR/.env ]; then
+    . $PROJECT_DIR/.env
+fi
 set +o allexport
 
 
