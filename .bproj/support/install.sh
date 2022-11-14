@@ -88,7 +88,7 @@ systemctl enable ${PROJECT_SERVICE_NAME}.service
 echo
 
 
-if [ -f $SUPPORT_DIR/firewall.sh ]; then
+if [ "$CSF_FIREWALL" = 1 -a -f $SUPPORT_DIR/firewall.sh ]; then
     echo "Linking files:"
     mkdir -p $CSFPOSTD # Make the folder in case it doesn't exist.
     ln -sfv $SUPPORT_DIR/firewall.sh $CSFPOSTD/vv_${PROJECT_SERVICE_NAME}.sh
