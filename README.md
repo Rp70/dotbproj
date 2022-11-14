@@ -16,12 +16,12 @@ When you just want to use it for create systemd.service for starting your projec
 cd /myproject # Jump to your project folder, CHANGE this path to your project path
 ```
 **CHANGE** this path to your project path
-2. Download `dotbproj`. This step will clone this repo and place `.bproj` folder in your project folder and clean its other codes. **WARNING!** This will remove existing `.bproj` and install the latest version
+2. One-command installation `dotbproj`. This step will clone this repo and place `.bproj` folder in your project folder and clean its other codes.
+
+**WARNING!** This will remove existing `.bproj` and install the latest version.
+**WARNING!** Make sure that you review https://raw.githubusercontent.com/Rp70/dotbproj/master/install-bproj.sh before running on your machine. Do not trust me.
 ```bash
-git clone https://github.com/Rp70/dotbproj.git dotbproj # Clone this repo
-rm -rdf ./.bproj # Remove the exising version
-mv dotbproj/.bproj ./ # Move the .bproj to your project folder
-rm -rdf dotbproj # Clean up the cloned repo
+curl -s https://raw.githubusercontent.com/Rp70/dotbproj/master/install-bproj.sh | bash -
 ```
 3. Upgrade process ends here. If this is the very first installation, continue the below instructions.
 4. Create `project.env` in your project folder. There is a `sample.project.env` you can copy
