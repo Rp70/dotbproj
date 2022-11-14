@@ -10,8 +10,8 @@ User=${PROJECT_USER}
 WorkingDirectory=${PROJECT_DIR}
 #Environment=ENVIRONMENT=${ENVIRONMENT}
 #EnvironmentFile=${PROJECT_DIR}/${ENVIRONMENT}.env
-ExecStart=${PROJECT_DIR}/project service-start
-ExecStop=${PROJECT_DIR}/project service-stop
+ExecStart=${PROJECT_DIR}/.bproj/project service-start
+ExecStop=${PROJECT_DIR}/.bproj/project service-stop
 TimeoutSec=300
 
 [Install]
