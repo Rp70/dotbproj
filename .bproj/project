@@ -95,7 +95,7 @@ project_main() {
 
 svc_start="${PROJECT_MAINPROG}_service_start"
 svc_end="${PROJECT_MAINPROG}_service_end"
-svc_end="${PROJECT_MAINPROG}_service_restart"
+svc_restart="${PROJECT_MAINPROG}_service_restart"
 case "$1" in
 	service-start)
 		shift
@@ -107,7 +107,7 @@ case "$1" in
 	;;
 	service-restart)
 		shift
-		$svc_end $@
+		$svc_restart $@
 	;;
 	*)
 		project_main $@
