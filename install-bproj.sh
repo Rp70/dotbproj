@@ -10,6 +10,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         echo "This command may help: \`apt-get install git\`"
         exit
     fi
+
     git clone https://github.com/Rp70/dotbproj.git dotbproj # Clone this repo
     rm -rdf ./.bproj # Remove the exising version
     mv dotbproj/.bproj ./ # Move the .bproj to your project folder
