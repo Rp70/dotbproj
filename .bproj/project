@@ -101,7 +101,7 @@ case "$1" in
 		shift
 		$svc_start $@
 	;;
-	service-end)
+	service-end | service-stop)
 		shift
 		$svc_end $@
 	;;
