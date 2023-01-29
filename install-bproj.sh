@@ -15,6 +15,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     rm -rdf ./.bproj # Remove the exising version
     mv dotbproj/.bproj ./ # Move the .bproj to your project folder
     rm -rdf dotbproj # Clean up the cloned repo
+    echo ""
     echo ".bproj installed. Thank you!"
 else
     echo "Installation/Upgrade cancelled. Thank you!"
