@@ -16,6 +16,7 @@ When you just want to use it for create systemd.service for starting your projec
 cd /myproject # Jump to your project folder, CHANGE this path to your project path
 ```
 **CHANGE** this path to your project path
+
 2. One-command installation `dotbproj`. This step will clone this repo and place `.bproj` folder in your project folder and clean its other codes.
 
 **WARNING!** This will remove existing `.bproj` and install the latest version.
