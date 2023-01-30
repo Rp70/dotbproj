@@ -6,6 +6,9 @@ VERSION=20221031
 #set -x
 
 cd $(dirname $0)
+if [ "$(basename `pwd`)" = '.bproj' ]; then
+	cd ..
+fi
 echo Working directory: `pwd`
 
 export COMPOSE_PROJECT_NAME=$(basename `pwd`)
