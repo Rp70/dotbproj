@@ -12,6 +12,7 @@ if [ ! -f $PROJECT_DIR/project.env ]; then
     exit
 fi
 set -o allexport
+. $PROJECT_DIR/.bproj/sample.project.env
 . $PROJECT_DIR/project.env
 if [ "$HOST" = '' -a -f $PROJECT_DIR/.env ]; then
     . $PROJECT_DIR/.env
