@@ -35,7 +35,7 @@ fi
 if [ "$ENVIRONMENT" = '' ] || [ "$HOST" = '' ]; then
     echo "ERROR: Please specify more environment vars! For example:
 * For production: \`${CMDPREFIX}ENVIRONMENT=prod HOST=`hostname` $0\`
-* For development (for SUDO account): \`${CMDPREFIX}ENVIRONMENT=dev HOST=`id -un` sudo $0\`
+* For development (for SUDO account): \`sudo ${CMDPREFIX}ENVIRONMENT=dev HOST=`id -un` $0\`
 * For development (for name of your choice): \`${CMDPREFIX}ENVIRONMENT=dev HOST=AnyName $0\`"
     exit 1
 fi
