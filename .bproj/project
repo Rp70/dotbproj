@@ -52,7 +52,7 @@ docker_compose_main() {
 	docker-compose $@
 	case "$1" in
 		down|kill|restart|run|start|stop|up)
-			if [ $? -eq 0 ]; then
+			if [ $? -eq 0 ] && [ "$CSF_FIREWALL" = '1' ]; then
 				CSFBIN=`which csf | cat -`
 				if [ "$CSFBIN" = '' ]; then
 					echo "Restarting CSF Firewall: not found, skipped."
