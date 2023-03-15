@@ -35,11 +35,11 @@ cp .bproj/sample.project.env project.env
 6. Install your systemd.service by running:
 * Under `root`
 ```bash
-ENVRONMENT=prod HOST=`hostname` .bproj/support/install.sh
+ENVIRONMENT=prod HOST=`hostname` .bproj/support/install.sh
 ```
 * Under `sudo` account
 ```bash
-sudo ENVRONMENT=prod HOST=`hostname` .bproj/support/install.sh
+sudo ENVIRONMENT=prod HOST=`hostname` .bproj/support/install.sh
 ```
 Replace `rp70` with your own name.
 
