@@ -61,9 +61,9 @@ docker_compose_main() {
 					$CSFBIN -r 2>&1 | tee tmp/firewall.log
 					echo "Restarting CSF Firewall: done."
 				fi
-				docker ps -a
 			fi
 
+			docker-compose ps -a
 		;;
 	esac
 }
