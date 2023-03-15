@@ -62,10 +62,8 @@ docker_compose_main() {
 					echo "Restarting CSF Firewall: done."
 				fi
 				docker ps -a
-			else
-				exit $?
 			fi
-			
+
 		;;
 	esac
 }
