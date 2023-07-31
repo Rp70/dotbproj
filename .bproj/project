@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=20230315
+VERSION=20230731
 
 #set -e
 #set -x
@@ -38,6 +38,12 @@ if [ "$PROJECT_USER" != '' -a `id -un` != "$PROJECT_USER" ]; then
 	CMDPREFIX="$CMDPREFIX su - $PROJECT_USER"
 fi
 
+COMPOSE_FILE='-f docker-compose.yml'
+ENV_COMPOSE_FILE="docker-compose.$ENVIRONMENT.yml"
+if [ -f $ENV_COMPOSE_FILE ]; then
+	COMPOSE_FILE="$COMPOSE_FILE -f $ENV_COMPOSE_FILE"
+fi
+
 docker_compose_service_start() {
 	if [ -f ./nfs/apparmor ]; then
 		sudo apparmor_parser -r -W ./nfs/apparmor
@@ -49,7 +55,7 @@ docker_compose_service_end() {
 	docker_compose_main down
 }
 docker_compose_main() {
-	docker-compose $@
+	docker-compose $COMPOSE_FILE $@
 	case "$1" in
 		down|kill|restart|run|start|stop|up)
 			if [ $? -eq 0 ] && [ "$CSF_FIREWALL" = '1' ]; then
