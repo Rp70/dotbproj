@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-VERSION=20230731
+VERSION=20230910
+
+dotbproj_echo() {
+	echo [dotbproj] $@
+}
 
 #set -e
 #set -x
@@ -9,7 +13,7 @@ cd $(dirname $0)
 if [ "$(basename `pwd`)" = '.bproj' ]; then
 	cd ..
 fi
-echo Working directory: `pwd`
+dotbproj_echo Working directory: `pwd`
 
 export COMPOSE_PROJECT_NAME=$(basename `pwd`)
 set -o allexport
@@ -29,7 +33,7 @@ COMPOSE_PROJECT_NAME="${PROJECT_ID}"
 set +o allexport
 
 if [ "$PROJECT_SUDO" = 'true' -a `id -u` != 0 ]; then
-    echo "Root or Sudo required! Please run this script under root account or SUDO."
+    dotbproj_echo "Root or Sudo required! Please run this script under root account or SUDO."
     exit 1
 fi
 
@@ -38,7 +42,18 @@ if [ "$PROJECT_USER" != '' -a `id -un` != "$PROJECT_USER" ]; then
 	CMDPREFIX="$CMDPREFIX su - $PROJECT_USER"
 fi
 
-COMPOSE_FILE='-f docker-compose.yml'
+COMPOSE_CMD="docker compose"
+docker compose version 1> /dev/null 2> /dev/null
+if [ $? -gt 0 ]; then
+	COMPOSE_CMD="docker-compose"
+fi
+
+
+COMPOSE_FILE=''
+if [ -f 'docker-compose.yml' ]; then
+	COMPOSE_FILE='-f docker-compose.yml'
+fi
+
 ENV_COMPOSE_FILE="docker-compose.$ENVIRONMENT.yml"
 if [ -f $ENV_COMPOSE_FILE ]; then
 	COMPOSE_FILE="$COMPOSE_FILE -f $ENV_COMPOSE_FILE"
@@ -55,21 +70,21 @@ docker_compose_service_end() {
 	docker_compose_main down
 }
 docker_compose_main() {
-	docker-compose $COMPOSE_FILE $@
+	$COMPOSE_CMD $COMPOSE_FILE $@
 	case "$1" in
 		down|kill|restart|run|start|stop|up)
 			if [ $? -eq 0 ] && [ "$CSF_FIREWALL" = '1' ]; then
 				CSFBIN=`which csf | cat -`
 				if [ "$CSFBIN" = '' ]; then
-					echo "Restarting CSF Firewall: not found, skipped."
+					dotbproj_echo "Restarting CSF Firewall: not found, skipped."
 				else
 					sleep $CSF_RESTART_DELAY
 					$CSFBIN -r 2>&1 | tee tmp/firewall.log
-					echo "Restarting CSF Firewall: done."
+					dotbproj_echo "Restarting CSF Firewall: done."
 				fi
 			fi
 
-			docker-compose ps -a
+			$COMPOSE_CMD ps -a
 		;;
 	esac
 }
@@ -99,6 +114,8 @@ project_service_restart() {
 project_main() {
 	docker_compose_main $@ 
 }
+
+
 
 svc_start="${PROJECT_MAINPROG}_service_start"
 svc_end="${PROJECT_MAINPROG}_service_end"
