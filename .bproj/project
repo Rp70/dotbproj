@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=20230910
+VERSION=20260112
 
 dotbproj_echo() {
 	echo [dotbproj] $@
@@ -49,14 +49,15 @@ if [ $? -gt 0 ]; then
 fi
 
 
-COMPOSE_FILE=''
-if [ -f 'docker-compose.yml' ]; then
-	COMPOSE_FILE='-f docker-compose.yml'
+if [ -z "$COMPOSE_FILE" ]; then
+	if [ -f 'docker-compose.yml' ]; then
+		COMPOSE_FILE_PARAM='-f docker-compose.yml'
+	fi
 fi
 
 ENV_COMPOSE_FILE="docker-compose.$ENVIRONMENT.yml"
-if [ -f $ENV_COMPOSE_FILE ]; then
-	COMPOSE_FILE="$COMPOSE_FILE -f $ENV_COMPOSE_FILE"
+if [ -f "$ENV_COMPOSE_FILE" ]; then
+	COMPOSE_FILE_PARAM="$COMPOSE_FILE_PARAM -f $ENV_COMPOSE_FILE"
 fi
 
 docker_compose_service_start() {
@@ -70,7 +71,7 @@ docker_compose_service_end() {
 	docker_compose_main down
 }
 docker_compose_main() {
-	$COMPOSE_CMD $COMPOSE_FILE $@
+	$COMPOSE_CMD $COMPOSE_FILE_PARAM $@
 	case "$1" in
 		down|kill|restart|run|start|stop|up)
 			if [ $? -eq 0 ] && [ "$CSF_FIREWALL" = '1' ]; then
